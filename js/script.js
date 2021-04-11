@@ -4,12 +4,13 @@ const weatherBox = $(".weather-box");
 
 
 const weather = {
-getWeather: function (city) {
+getWeather: function (city,state) {
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${OWM_TOKEN}`
+      `http://api.openweathermap.org/data/2.5/weather?q=${city},${state}&units=imperial&appid=${OWM_TOKEN}`
     ).then(response => response.json())
       .then(data => {
-        $(weatherBox).append(renderWeather(data));
+
+        $(weatherBox).append(this.displayWeather(data));
       });
   },
   displayWeather: function (data) {
@@ -31,16 +32,20 @@ getWeather: function (city) {
             </div>`
 
   },
-
+search: function () {
+  this.getWeather($(".searchInput").val());
+}
 };
 
-function search(){
+
   $(".searchButton").click(function (e){
         e.preventDefault();
-        console.log('clicked');
-  })
-}
-search();
+      weather.search();
+
+  });
+
+
+
 
 
 
